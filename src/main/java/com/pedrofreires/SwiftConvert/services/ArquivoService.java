@@ -1,4 +1,4 @@
-package com.pedrofreires.SwiftConvert.service;
+package com.pedrofreires.SwiftConvert.services;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,8 @@ public class ArquivoService {
         this.arquivosRepository = arquivosRepository;
     }
 
-    public ResponseEntity<List<Arquivo>> getAll() {
-        List<Arquivo> arquivos = this.arquivosRepository.findAll();
-        return ResponseEntity.ok().body(arquivos);
+    public List<Arquivo> getAll() {
+        return this.arquivosRepository.findAll();
     }
 
     public ResponseEntity<Arquivo> getOne(Integer id) {
@@ -32,12 +31,12 @@ public class ArquivoService {
         return ResponseEntity.ok().body(arquivo);
     }
 
-    public ResponseEntity<String> create(MultipartFile file) {
+    public Arquivo create(MultipartFile file) {
 
-        this.storageService.store(file);
-        Arquivo arquivo = new Arquivo();
+        String destinationPath = this.storageService.store(file);
+        Arquivo arquivo = new Arquivo(file.getOriginalFilename(), destinationPath, file.getContentType());
 
         this.arquivosRepository.save(arquivo);
-        return ResponseEntity.ok().body("Arquivo salvo com sucesso !!");
+        return arquivo;
     }
 }
