@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StorageProperties {
 
-    private final String location = "/DataSaved";
+    private final String location = "./DataSaved";
 }
