@@ -2,8 +2,8 @@ package com.pedrofreires.SwiftConvert.domain.storage;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface StorageService {
+import java.io.IOException;
 
-    void init();
-    String store(MultipartFile file);
+public interface StorageService {
+    String store(MultipartFile file) throws IOException;
 }
