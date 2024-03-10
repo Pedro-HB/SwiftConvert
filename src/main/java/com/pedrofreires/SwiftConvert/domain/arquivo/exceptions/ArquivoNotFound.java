@@ -1,6 +1,4 @@
-package com.pedrofreires.SwiftConvert.domain.arquivos.exceptions;
-
-import com.pedrofreires.SwiftConvert.repositories.ArquivosRepository;
+package com.pedrofreires.SwiftConvert.domain.arquivo.exceptions;
 
 public class ArquivoNotFound extends RuntimeException{
 
