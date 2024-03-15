@@ -26,7 +26,7 @@ public class ConverterServiceImpl implements ConverterService {
         String filename = arquivo.filename;
         String outputName = filename.replace(".pdf",".jpg");
 
-        String pathOriginal = arquivo.getPathOriginFile();
+        String pathOriginal = arquivo.location;
         String pathDestino = arquivo.getPathDestiny(outputName);
 
         Process processIO = CommandService.executeAcommand(this.getCommand(pathOriginal, pathDestino));
