@@ -31,12 +31,8 @@ public class Arquivo {
         this.conversoes = arquivos;
     }
 
-    public String getPathOriginFile(){
-        return this.location + "/" + this.filename;
-    }
-
     public String getPathDestiny(String outputName){
-        return this.location + "/" + outputName;
+        return this.location.replace(this.filename, outputName);
     }
 
     public void addConversion(Arquivo arquivo){
