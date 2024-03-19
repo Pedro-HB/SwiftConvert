@@ -1,6 +1,6 @@
 package com.pedrofreires.SwiftConvert.controllers;
 
-import com.pedrofreires.SwiftConvert.services.ArquivoService;
+import com.pedrofreires.SwiftConvert.services.ArquivoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/convert")
 public class ConvertController {
 
-    private final ArquivoService arquivoService;
+    private final ArquivoServiceImpl arquivoService;
 
     @Autowired
-    public ConvertController(ArquivoService arquivoService){
+    public ConvertController(ArquivoServiceImpl arquivoService){
         this.arquivoService = arquivoService;
     }
 

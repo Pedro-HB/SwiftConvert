@@ -1,22 +1,25 @@
 package com.pedrofreires.SwiftConvert.controllers;
 
+
 import java.util.List;
+import com.pedrofreires.SwiftConvert.domain.arquivo.ArquivoBodyDTO;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.pedrofreires.SwiftConvert.domain.arquivo.Arquivo;
-import com.pedrofreires.SwiftConvert.services.ArquivoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.pedrofreires.SwiftConvert.services.ArquivoServiceImpl;
 
 
 @RestController
 @RequestMapping("/api/arquivo")
 public class ArquivoController {
 
-    private final ArquivoService arquivoService;
+    private final ArquivoServiceImpl arquivoService;
 
     @Autowired
-    public ArquivoController(ArquivoService arquivoService){
+    public ArquivoController(ArquivoServiceImpl arquivoService){
         this.arquivoService = arquivoService;
     }
 
@@ -33,5 +36,10 @@ public class ArquivoController {
     @GetMapping("/view/{id}")
     public ResponseEntity<Arquivo> getView(@PathVariable("id") String id){
         return ResponseEntity.ok().body(this.arquivoService.getOne(id));
+    }
+
+    @GetMapping("/convertedFile/{id}")
+    public ResponseEntity<Resource> getFile(@PathVariable("id") String id, @RequestBody ArquivoBodyDTO convertedData){
+        return arquivoService.getFileConverted(id, convertedData.mimeType());
     }
 }

@@ -46,6 +46,7 @@ public class StorageServiceImpl implements StorageService {
         catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
-        return destinationFile.toAbsolutePath().toString();
+        // location final of the file.
+        return destinationFile.toAbsolutePath().toString() + "/" + file.getOriginalFilename();
     }
 }

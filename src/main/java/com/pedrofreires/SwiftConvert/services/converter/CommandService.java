@@ -13,6 +13,7 @@ class CommandService {
 
         try{
             process = processContext.start();
+            // vai bloquear minha thread original e esperar por um retorno do meu processo
             process.waitFor();
 
         } catch( IOException err ){
