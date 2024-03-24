@@ -1,30 +1,41 @@
 package com.pedrofreires.SwiftConvert.services.converter;
 
-import com.pedrofreires.SwiftConvert.repositories.ArquivosRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Objects;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import com.pedrofreires.SwiftConvert.domain.arquivo.Arquivo;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.pedrofreires.SwiftConvert.repositories.ArquivosRepository;
 import com.pedrofreires.SwiftConvert.domain.converter.ConverterService;
-
-import java.util.ArrayList;
 
 
 @Service
 public class ConverterServiceImpl implements ConverterService {
-
-    private final ArquivosRepository arquivosRepository;
+    /*
+    *   Classe responsável por fazer o intermedio entre a chamada de conversão e a conversão propriamente
+    *   Depdende diretamente da existencia do serviço convert instalado na máquina que está utilizando.
+    * */
 
     private static final String CommandPdfToJpg = "convert -verbose -density 150 -trim %s -quality 100 -flatten -sharpen 0x1.0 %s";
+
+    private final ArquivosRepository arquivosRepository;
 
     @Autowired
     public ConverterServiceImpl(ArquivosRepository arquivosRepository){
         this.arquivosRepository = arquivosRepository;
     }
 
-    public Boolean convertPdfToJpg(Arquivo arquivo) {
+    public Boolean convertMimeTypeFile(Arquivo arquivo, String resultMimeType) {
 
         String filename = arquivo.filename;
-        String outputName = filename.replace(".pdf",".jpg");
+
+        String extensionDestiny = MimeTypeSupport.getExtension(resultMimeType);
+        String extensionOrigin = MimeTypeSupport.getExtension(arquivo.mimeType);
+
+        assert extensionOrigin != null;
+        assert extensionDestiny != null;
+
+        String outputName = filename.replace(extensionOrigin, extensionDestiny);
 
         String pathOriginal = arquivo.location;
         String pathDestino = arquivo.getPathDestiny(outputName);
@@ -35,7 +46,7 @@ public class ConverterServiceImpl implements ConverterService {
 
         if(!exitCode){ return false; }
 
-        arquivo.addConversion(new Arquivo(outputName, pathDestino, "image/jpg", new ArrayList<>()));
+        arquivo.addConversion(new Arquivo(outputName, pathDestino, resultMimeType, new ArrayList<>()));
 
         this.arquivosRepository.save(arquivo);
         return true;

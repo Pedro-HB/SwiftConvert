@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 
 @Service
@@ -30,7 +31,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String store(@NonNull MultipartFile file){
+    public String store(@NonNull MultipartFile file, String fileName){
 
         try {
             if (file.isEmpty()) {
@@ -38,8 +39,7 @@ public class StorageServiceImpl implements StorageService {
             }
 
             Path destinationFile = this.destinationFile
-                    .resolve( Paths.get(file.getOriginalFilename()))
-                    .normalize().toAbsolutePath();
+                    .resolve( Paths.get(fileName)).normalize().toAbsolutePath();
 
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
         }
@@ -47,6 +47,6 @@ public class StorageServiceImpl implements StorageService {
             throw new StorageException("Failed to store file.", e);
         }
         // location final of the file.
-        return destinationFile.toAbsolutePath().toString() + "/" + file.getOriginalFilename();
+        return destinationFile.toAbsolutePath().toString() + "/" + fileName;
     }
 }
