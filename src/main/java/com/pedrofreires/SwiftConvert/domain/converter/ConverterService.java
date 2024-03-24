@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface ConverterService {
 
-    Boolean convertPdfToJpg(Arquivo arquivo) throws IOException;
+    Boolean convertMimeTypeFile(Arquivo arquivo, String resultMimeType) throws IOException;
 }

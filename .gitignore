@@ -34,3 +34,6 @@ build/
 
 ### Resources ###
 *.properties
+
+### Convert ###
+./DataSaved/*
